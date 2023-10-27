@@ -3,20 +3,38 @@ import sys
 
 def processArguments():
     # Recibe de la linea de comandos un argumento
-    host_server = sys.argv[1]
-    arguments = [host_server]
+    list_user_agents =["Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0","Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)"]
+    print("User agents:")
+    i=0
+    for ua in list_user_agents:
+        i+=1
+        print(i,". ",ua)
+        host_server = sys.argv[1]
+        http_method = sys.argv[2]
+        url = sys.argv[3]
+        tmp = int(sys.argv[4])-1
+        user_agent = list_user_agents[tmp]
+        
+        encoding = sys.argv[5]
+        connection = sys.argv[6]
+        arguments = [host_server,http_method,url,user_agent,encoding,connection]
     return arguments
 
-def constructHTTPRequest(host_server):
+def constructHTTPRequest(arguments):
+    encoding = arguments[4]
+    connection = arguments[5]
+
     # Construccion de HTTP request line
-    http_method = "GET"
-    url = "/"
+    host_server = arguments[0]
+    http_method = arguments[1]
+    url = arguments[2]
     version = "HTTP/1.1"
     request_line = http_method+" "+url+" "+version+"\r\n"
 
     host = "HOST: "+host_server
-    user_agent = "User-Agent: Google Chrome on Windows 10 - Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36"
-    accept_encoding = "Accept-Encoding: identity"
+    user_agent = arguments[3]
+ 
+    accept_encoding = "Accept-Encoding:"+str(encoding)
     accept_language = "Accept-Language: en-US"
 
     header_lines = host+"\r\n" + \
@@ -55,5 +73,5 @@ def TCPconnection(host_server, HTTP_request):
     print("\n\nConexion con el servidor finalizada\n")
 
 arguments = processArguments()
-HTTP_request = constructHTTPRequest(*arguments)
+HTTP_request = constructHTTPRequest(arguments)
 TCPconnection(arguments[0],HTTP_request)
