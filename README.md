@@ -1,6 +1,11 @@
 # Taller de Sistemas Operativos, Redes de Cómputo, Sistemas Distribuidos y Manejo de Información
 ![LOGO FC](img_logoFC_2019.png)
 # Práctica 4: _Programación de un cliente de HTTP y uso de contenedores_.
+Equipo:
+
+Natalia Abigail Pérez Romero 
+
+Marco Antonio Rivera Silva
 
 ## Desarrollo
 
@@ -41,26 +46,32 @@ en donde
 4. Los parámetros deben de separarse por un retorno de carro o *carriage return*, (CR) y por un salto de línea o *linefeed* (LF), y la solicitud de HTTP debe de terminar de la misma forma con un retorno de carro y con un salto de línea. 
 
 
-5. En la siguiente figura se muestra el tráfico de Wireshark del ejemplo anterior en la que se observa estos delimitadores con su valor en ASCII, del lado izquierdo de la salida de los datos de Wireshark se encuentra los valores en hexadecimal de estos datos, y del lado derecho se encuentra su interpretación en código ASCII, si la interpretación no corresponde a un caracter imprimible, Wireshark colocará un punto. 
+5. En la siguiente figura se muestra el tráfico de Wireshark del ejemplo anterior. Del lado izquierdo de la salida de los datos de Wireshark se encuentra los valores en hexadecimal de estos datos, y del lado derecho se encuentra su interpretación en código ASCII, si la interpretación no corresponde a un caracter imprimible, Wireshark colocará un punto. 
 
 ![WIRESHARK](fciencias.png)
 
+En el archivo Practica_4_GPC/ejemploPeticion.pcapng podemos encontrar la captura de la petición `$ python clientHTTP.py www.fciencias.unam.mx GET / 2 identity close`  
+ si ponemos el filtro tcp.port == 80 || udp.port == 80 
 
 6. La respuesta HTTP enviada por el servidor deberá ser mostrada por el cliente en pantalla (en la terminal en donde se ejecutó el cliente). Puede ser sólo la respuesta HTTP en algunos casos, y en otros la respuesta HTTP junto con el archivo solicitado, ambos en pantalla. 
 
-Por ejemplo: mail7.unam.mx
+Por ejemplo, si ejecutamos `$ python clientHTTP.py mail7.unam.mx POST / 2 identity close` obtenemos lo siguiente:
+
+Observamos la respuesta HTTP junto con el archivo solicitado en la terminal, y la conversación realizada a traves de Wireshark
 ![mail71](mail7unam.png)
 
+En la captura siguiente podemos observar la petición HTTP:
+![mail71](mail7Peticion.png)
 
-1. Incluya una función sencilla de ayuda que muestre cómo se debe de ejecutar el programa y las opciones de *User-Agent* con las que se cuenta.
+En la captura siguiente podemos observar la respuesta HTTP:s
+![mail71](mail7Respuesta.png)
+
+7. Incluimos una función sencilla de ayuda que muestre cómo se debe de ejecutar el programa y las opciones de *User-Agent* con las que se cuenta.
 
 Si se ejecuta sin argumentos presentará un menu donde aceptará la entrada de los 6 campos e instrucciones para ejecutar el programa
  `$ python clientHTTP.py`  
 
-
-1. Durante la programación del cliente se recomienda el uso de Wireshark para visualizar el tráfico de la comunicación con el servidor y así detectar posibles fallas en las solicitudes de HTTP, o en otros aspectos. Se recomienda colocar un filtro para que sólo se muestren las conexiones dirigidas al puerto 80 y a la dirección IP del servidor Web.
-
-2. Algunos sitios web que se pueden consultar por HTTP (puerto 80), que se pueden usar para probar este cliente base:
+8. Algunos sitios web que se pueden consultar por HTTP (puerto 80), que se pueden usar para probar este cliente:
 
 * mail7.unam.mx
 * encomunicacionct.geociencias.unam.mx
@@ -71,30 +82,18 @@ Si se ejecuta sin argumentos presentará un menu donde aceptará la entrada de l
 
 ### Segunda parte
 
-1. Suba el código a un repositorio como GitHub o GitLab junto con la configuración para que se ejecute manualmente dentro de un contenedor de Docker, deberá incluir todas las dependencias y configuraciones necesarias. Se recomienda que el repositorio sea privado y que lo comparta a la cuenta de correo del profesor.
+1. Se subio el código al repositorio de GitHub: https://github.com/NataliaPerez08/Practica_4_GPC.git junto con la configuración para que se ejecute manualmente dentro de un contenedor de Docker con todas las dependencias y configuraciones necesarias. 
 
-2. Elabore un archivo Dockerfile que tenga el nombre exacto `Dockerfile`, sin extensión, que contenga las instrucciones necesarias para la construcción de la imagen. A continuación se muestran dos ejemplos con los cuáles se crean imágenes de Docker listas para ejecutar el código base del cliente de HTTP del ejemplo `clientHTTP_base.py`.
+2. El archivo Dockerfile `Dockerfile`, contiene las instrucciones necesarias para la construcción de la imagen. A continuación se muestra la imagen de Docker lista para ejecutar el código base del cliente de HTTP del ejemplo `clientHTTP_base.py`.
+![ALPINE](a-dockerfile.png)
 
-Ejemplo para crear una imagen con sistema operativo Alpine Linux.
-
-![ALPINE](alpine-dockerfile.png)
-
-Ejemplo para crear una imagen con sistema operativo Ubuntu.
-
-![UBUNTU](ubuntu-dockerfile.png)
-
-3. Su repositorio al menos deberá contener los archivos:
-* Dockerfile
-* clientHTTP.py
-* README.md
-
-4. Para probar si la construcción de la imagen es correcta siga los siguientes pasos. Instale Docker, si se está usando como sistema operativo a Debian, siga las instrucciones para instalar Docker de la documentación oficial en el siguiente enlace
+3. Para probar si la construcción de la imagen es correcta siga los siguientes pasos. Instale Docker, si se está usando como sistema operativo a Debian, siga las instrucciones para instalar Docker de la documentación oficial en el siguiente enlace
 
 https://docs.docker.com/engine/install/debian/#install-using-the-repository
 
-5. Descargue los archivos de su repositorio, clonando el mismo.
+4. Descargue los archivos de su repositorio, clonando el mismo.
 
-6. Ingrese al directorio recién descargado y ejecute el siguiente comando para construir la imagen de docker:
+5. Ingrese al directorio recién descargado y ejecute el siguiente comando para construir la imagen de docker:
 
 `$ sudo docker build -t nombre_de_la_imagen:etiqueta .`
 
@@ -110,15 +109,17 @@ Reemplace el *nombre_de_la_imagen* con el nombre que desea darle a la imagen, y 
 
 `$ sudo docker run --interactive --tty redes:p4 /bin/sh`
 
-Si está usando una imagen de Ubuntu, ejecute en su lugar el siguiente comando:
+9. Ahora ejecutar el programa de python clientHTTP.py con el siguiente comando:
 
+`# python /opt/clientHTTP.py`
 
-`$ sudo docker run --interactive --tty redes:p4 /bin/bash`
+O bien con los 6 paramentros de la forma: 
 
+`# python /opt/clientHTTP.py host http_method url user_agent encoding connection` 
 
-9. Ahora ejecute el programa de python que elaboró y que copió a la imagen a través de las instrucciones del archivo Dockerfile, por ejemplo para el programa base del cliente de HTTP se ejecuta el siguiente comando:
+Por ejemplo:
 
-`python2 /opt/clientHTTP_base.py www.fciencias.unam.mx`
+`# python /opt/clientHTTP.py www.fciencias.unam.mx GET / 2 identity close`
 
 10. Salga del contenedor con la combinación de teclas `ctrl`+`d`
 
@@ -130,13 +131,6 @@ Si está usando una imagen de Ubuntu, ejecute en su lugar el siguiente comando:
 * ¿Cuál es la función de los métodos de HTTP *HEAD*, *GET*, *POST*, *PUT* y *DELETE*?
 * ¿Investigue y enliste junto con su significado las categorías de códigos de estado que usa HTTP?
 * ¿Para qué se usan los campos *encoding* y *connection*?
-
-
-# Notas adicionales
-
-1.  La práctica se elabora individualmente.
-2.  Se pueden agregar posibles errores, complicaciones, opiniones, críticas de la práctica o del laboratorio, o cualquier comentario relativo a la práctica.
-4.  Subir a Moodle en enlace a su repositorio.
 
 # Reporte
 * ¿Cuál es la función de los métodos de HTTP *HEAD*, *GET*, *POST*, *PUT* y *DELETE*?

@@ -1,14 +1,42 @@
 import socket
 import sys
+def ask_user():
+    list_user_agents =["Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0","Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)"]
+
+    print("Ingrese los siguientes datos:")
+
+    print("Host-Server: ") 
+    host_server = input()
+
+    print("HTTP-Method: ") 
+    http_method = input()
+
+    print("URL: ") 
+    url = input()
+
+    print("User-Agent:")
+    i=1
+    for ua in list_user_agents:
+        print(i,". ",ua)
+        i+=1
+    
+    tmp = int(input())-1
+    user_agent = list_user_agents[tmp]
+    
+    print("Accept-Encoding:")
+    encoding = input()
+
+    print("Connection: ")
+    connection = input()
+
+    arguments = [host_server,http_method,url,user_agent,encoding,connection]
+    return arguments
 
 def processArguments():
+    arguments=[]
     # Recibe de la linea de comandos un argumento
     list_user_agents =["Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0","Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0","Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)"]
-    print("User agents:")
-    i=0
-    for ua in list_user_agents:
-        i+=1
-        print(i,". ",ua)
+    try:
         host_server = sys.argv[1]
         http_method = sys.argv[2]
         url = sys.argv[3]
@@ -18,6 +46,9 @@ def processArguments():
         encoding = sys.argv[5]
         connection = sys.argv[6]
         arguments = [host_server,http_method,url,user_agent,encoding,connection]
+    except IndexError:
+        print("El programa recibe al menos seis argumentos cuando se ejecute, de la forma $ python clientHTTP.py host http_method url user_agent encoding connection: ")
+        arguments = ask_user()
     return arguments
 
 def constructHTTPRequest(arguments):
@@ -85,4 +116,5 @@ def TCPconnection(host_server, HTTP_request):
 
 arguments = processArguments()
 HTTP_request = constructHTTPRequest(arguments)
+print(HTTP_request)
 TCPconnection(arguments[0],HTTP_request)
