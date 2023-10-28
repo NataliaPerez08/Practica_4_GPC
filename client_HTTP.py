@@ -73,11 +73,11 @@ def TCPconnection(host_server, HTTP_request):
  
     # Imprimira en pantalla la HTTP response mientras reciba información del 
     #servidor
-    i=0
+    HTTP_response = b""
     while True:
         HTTP_response = s.recv(1024)
-        if HTTP_response == "": break
-        print(HTTP_response)
+        if len(HTTP_response) == 0: break
+        print(HTTP_response.decode())
     # Se cierra la conexion con el servidor
     s.close()
 
