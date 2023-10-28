@@ -21,26 +21,36 @@ def processArguments():
     return arguments
 
 def constructHTTPRequest(arguments):
-    encoding = arguments[4]
-    connection = arguments[5]
 
     # Construccion de HTTP request line
-    host_server = arguments[0]
     http_method = arguments[1]
     url = arguments[2]
     version = "HTTP/1.1"
     request_line = http_method+" "+url+" "+version+"\r\n"
 
+    host_server = arguments[0]
     host = "HOST: "+host_server
-    user_agent = arguments[3]
- 
-    accept_encoding = "Accept-Encoding:"+str(encoding)
-    accept_language = "Accept-Language: en-US"
+
+    i_ua = arguments[3]
+    user_agent = "User-Agent: "+str(i_ua)
+
+    i_encode = arguments[4]
+    accept_encoding = "Accept-Encoding: "+str(i_encode)
+    
+    accept_language = "Accept-Language: es-MX"
+    accept = "Accept: text/html,application/xhtml+xml,"
+
+    
+    i_connect = arguments[5]
+    connection = "Connection: "+str(i_connect)
+
 
     header_lines = host+"\r\n" + \
                 user_agent+"\r\n"+\
+                accept+"\r\n"+\
+                accept_language+"\r\n"+\
                 accept_encoding+"\r\n"+\
-                accept_language+"\r\n"
+                connection+"\r\n"
     # La peticion HTTP debe terminar con un retorno de carro y
     # un salto de linea 
     blank_line = "\r\n"
@@ -63,6 +73,7 @@ def TCPconnection(host_server, HTTP_request):
  
     # Imprimira en pantalla la HTTP response mientras reciba información del 
     #servidor
+    i=0
     while True:
         HTTP_response = s.recv(1024)
         if HTTP_response == "": break
@@ -74,4 +85,5 @@ def TCPconnection(host_server, HTTP_request):
 
 arguments = processArguments()
 HTTP_request = constructHTTPRequest(arguments)
+print(HTTP_request)
 TCPconnection(arguments[0],HTTP_request)
