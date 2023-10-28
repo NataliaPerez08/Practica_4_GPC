@@ -6,19 +6,9 @@
 
 ### Primera parte
 
-1. Programar un cliente de HTTP versión 1.1 con el lenguaje de programación Python, se hará sin el uso de módulos complementarios como *httplib* o alguno parecido, aunque si será necesario usar otros módulos como *socket* o *sys*. El cliente podrá establecer la conexión con cualquier servidor Web usando el protocolo HTTP.
+1. Programar un cliente de HTTP versión 1.1 con el lenguaje de programación Python 3, se hará sin el uso de módulos complementarios como *httplib* o alguno parecido, aunque si será necesario usar otros módulos como *socket* y *sys*. El cliente podrá establecer la conexión con cualquier servidor Web usando el protocolo HTTP.
 
-2. A continuación se muestra un código base de ejemplo escrito en Python 2, que ya no se recomienda usar por cuestiones de seguridad, en su lugar se deberá usar Python 3. Se ejecuta de la forma
-
- `$ python clientHTTP_base.py host`
-
-Por ejemplo:
-
- `$ python clientHTTP_base.py www.fciencias.unam.mx`
-
-![CODIGO](codigo.png)
-
-3. Deberá recordar o investigar cómo se conforma la solicitud HTTP de un cliente a un servidor, al menos la solicitud enviada al servidor por el programa cliente deberá incluir los siguientes parámetros:
+2. La solicitud HTTP de un cliente a un servidor, al menos la solicitud enviada al servidor por el programa cliente deberá incluir los siguientes parámetros:
 
   * Método, URL y versión del protocolo HTTP, por ejemplo
   `GET /imagen.jpg HTTP/1.1`. Los dos primeros valores, el método y la URL, los proporcionará el usuario del programa.
@@ -31,7 +21,7 @@ Por ejemplo:
   * Connection, proporcionado por el usuario.
 
 
-4. El programa final recibirá al menos seis argumentos cuando se ejecute, de la forma
+3. El programa final recibirá al menos seis argumentos cuando se ejecute, de la forma
 
 `$ python clientHTTP.py host http_method url user_agent encoding connection`
 
@@ -48,18 +38,21 @@ en donde
 
  `$ python clientHTTP.py www.fciencias.unam.mx GET / 1 identity close`  
 
-5. Es importante aclarar que los parámetros deben de separarse por un retorno de carro o *carriage return*, (CR) y por un salto de línea o *linefeed* (LF), y que la solicitud de HTTP debe de terminar de la misma forma con un retorno de carro y con un salto de línea. En la siguiente figura se muestra el tráfico de Wireshark en la que se observa estos delimitadores con su valor en ASCII, del lado izquierdo de la salida de los datos de Wireshark se encuentra los valores en hexadecimal de estos datos, y del lado derecho se encuentra su interpretación en código ASCII, si la interpretación no corresponde a un caracter imprimible, Wireshark colocará un punto. En los recuadros de color verde se señalan el retorno de carro y el salto de línea, en color azul los simbolos que conforman los parámetros de HTTP.
+4. Los parámetros deben de separarse por un retorno de carro o *carriage return*, (CR) y por un salto de línea o *linefeed* (LF), y la solicitud de HTTP debe de terminar de la misma forma con un retorno de carro y con un salto de línea. 
+
+
+5. En la siguiente figura se muestra el tráfico de Wireshark en la que se observa estos delimitadores con su valor en ASCII, del lado izquierdo de la salida de los datos de Wireshark se encuentra los valores en hexadecimal de estos datos, y del lado derecho se encuentra su interpretación en código ASCII, si la interpretación no corresponde a un caracter imprimible, Wireshark colocará un punto. 
 
 ![WIRESHARK](get_wireshark.png)
 
 
-6. La respuesta HTTP enviada por el servidor deberá ser mostrada por el cliente en pantalla (en la terminal en donde se ejecutó el cliente). Puede ser sólo la respuesta HTTP en algunos casos, y en otros la respuesta HTTP junto con el archivo solicitado, ambos en pantalla. Pruebe solicitar varios recursos.
+1. La respuesta HTTP enviada por el servidor deberá ser mostrada por el cliente en pantalla (en la terminal en donde se ejecutó el cliente). Puede ser sólo la respuesta HTTP en algunos casos, y en otros la respuesta HTTP junto con el archivo solicitado, ambos en pantalla. Pruebe solicitar varios recursos.
 
-7. Incluya una función sencilla de ayuda que muestre cómo se debe de ejecutar el programa y las opciones de *User-Agent* con las que se cuenta.
+2. Incluya una función sencilla de ayuda que muestre cómo se debe de ejecutar el programa y las opciones de *User-Agent* con las que se cuenta.
 
-8. Durante la programación del cliente se recomienda el uso de Wireshark para visualizar el tráfico de la comunicación con el servidor y así detectar posibles fallas en las solicitudes de HTTP, o en otros aspectos. Se recomienda colocar un filtro para que sólo se muestren las conexiones dirigidas al puerto 80 y a la dirección IP del servidor Web.
+3. Durante la programación del cliente se recomienda el uso de Wireshark para visualizar el tráfico de la comunicación con el servidor y así detectar posibles fallas en las solicitudes de HTTP, o en otros aspectos. Se recomienda colocar un filtro para que sólo se muestren las conexiones dirigidas al puerto 80 y a la dirección IP del servidor Web.
 
-9. Algunos sitios web que se pueden consultar por HTTP (puerto 80), que se pueden usar para probar este cliente base:
+4. Algunos sitios web que se pueden consultar por HTTP (puerto 80), que se pueden usar para probar este cliente base:
 
 * mail7.unam.mx
 * encomunicacionct.geociencias.unam.mx
@@ -136,3 +129,55 @@ Si está usando una imagen de Ubuntu, ejecute en su lugar el siguiente comando:
 1.  La práctica se elabora individualmente.
 2.  Se pueden agregar posibles errores, complicaciones, opiniones, críticas de la práctica o del laboratorio, o cualquier comentario relativo a la práctica.
 4.  Subir a Moodle en enlace a su repositorio.
+
+# Reporte
+* ¿Cuál es la función de los métodos de HTTP *HEAD*, *GET*, *POST*, *PUT* y *DELETE*?
+
+**HEAD**. El método HEAD pide una respuesta idéntica a la de una petición GET, pero sin el cuerpo de la respuesta, es decir, solo solicita los metadatos de un recurso o archivo y no todo elemento  como tal.
+
+**GET**. Solicita una representación de un recurso específico. Las peticiones que usan el método GET sólo deben recuperar datos.
+
+**POST**. Envia una entidad a un recurso en específico, causando a menudo un cambio en el estado o efectos secundarios en el servidor.
+
+**PUT**. Crea/Carga un nuevo recurso al servidor, o en caso de que el objeto ya exista en el servidor reemplaza el recurso existente con el recurso que se carga.
+
+**DELETE**. Le solicita al servidor web que se borre un recurso en específico.
+
+* ¿Investigue y enliste junto con su significado las categorías de códigos de estado que usa HTTP?
+
+Los códigos de estado de respuesta HTTP indican si se ha completado satisfactoriamente una solicitud HTTP específica. Las respuestas se agrupan en cinco clases:
+- Respuestas informativas (100–199),
+- Respuestas satisfactorias (200–299),
+- Redirecciones (300–399),
+- Errores de los clientes (400–499),
+- y errores de los servidores (500–599).
+
+Los códigos de estado se definen en la sección 10 de RFC 2616. Puedes obtener las especificaciones actualizadas en RFC 7231.
+
+* ¿Para qué se usan los campos *encoding* y *connection*?
+
+**Accept-Encoding**
+La cabecera HTTP de solicitud Accept-Encoding indica la codificación del contenido (normalmente un algoritmo de compresión) que el cliente puede entender. El servidor utiliza la negociación de contenidos para seleccionar una de las propuestas e informa al cliente de esa elección con la cabecera de respuesta Content-Encoding.
+
+Directivas:
+
+gzip. Formato de compresión que utiliza la codificación Lempel-Ziv (LZ77) con un CRC de 32 bits.
+
+compress. Formato de compresión que utiliza el algoritmo Lempel-Ziv-Welch (LZW).
+
+deflate. Formato de compresión que utiliza la estructura zlib con el algoritmo de compresión deflate.
+
+br. Formato de compresión que utiliza el algoritmo Brotli.
+
+identity. Indica la función de identidad (es decir, sin modificación ni compresión). Este valor siempre se considera aceptable, aunque se omita.
+
+*. Coincide con cualquier codificación de contenido que no figure ya en la cabecera. Este es el valor por defecto si la cabecera no está presente. Esta directiva no sugiere que se admita ningún algoritmo, sino que indica que no se expresa ninguna preferencia.
+
+;q= (ponderación de valores q). Cualquier valor se coloca en un orden de preferencia expresado mediante un valor relativo de calidad denominado peso.
+
+**Connection**
+La cabecera general Connection controla si la conexión de red permanece abierta una vez finalizada la transacción actual. 
+
+Si el valor enviado es keep-alive, la conexión es persistente y no se cierra, lo que permite realizar solicitudes posteriores al mismo servidor.
+
+ Si el valor enviado es close, indica que el cliente o el servidor desean cerrar la conexión. 

@@ -85,5 +85,4 @@ def TCPconnection(host_server, HTTP_request):
 
 arguments = processArguments()
 HTTP_request = constructHTTPRequest(arguments)
-print(HTTP_request)
 TCPconnection(arguments[0],HTTP_request)
